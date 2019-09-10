@@ -1,5 +1,5 @@
 # Tests Case
-A script to test test cases for programming marathon algorithms like [OBI](https://olimpiada.ic.unicamp.br), [OCI](https://www.oci.org.br/), [URI Online Judge](www.urionlinejudge.com.br/judge/), [ICPC](https://icpc.baylor.edu/), among others.
+A script to test cases for programming marathon algorithms like [OBI](https://olimpiada.ic.unicamp.br), [OCI](https://www.oci.org.br/), [URI Online Judge](www.urionlinejudge.com.br/judge/), [ICPC](https://icpc.baylor.edu/), among others.
 
 # Usage Guide
 
@@ -22,4 +22,4 @@ Clone or download the repository to your computer.
 
 ## Test
 
-    python run.py postes.py# testscase
+    python run.py postes.py
