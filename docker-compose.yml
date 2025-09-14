@@ -1,0 +1,53 @@
+services:
+  postgres:
+    image: postgres:15
+    container_name: ${POSTGRES_CONTAINER_NAME:-codedojo_postgres}
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-codedojo}
+      POSTGRES_USER: ${POSTGRES_USER:-codedojo_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-codedojo_pass}
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+    networks:
+      - codedojo_network
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: codedojo_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@codedojo.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+    networks:
+      - codedojo_network
+    restart: unless-stopped
+
+  php:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: codedojo_php
+    volumes:
+      - ./:/app
+    working_dir: /app
+    depends_on:
+      - postgres
+    networks:
+      - codedojo_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  codedojo_network:
+    driver: bridge
